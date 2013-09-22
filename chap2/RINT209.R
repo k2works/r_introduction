@@ -1,0 +1,5 @@
+a = c(2,4,6,8)
+b = c(4,8,12,14,16)
+union(a,b)
+intersect(a,b)
+setdiff(a,b)
