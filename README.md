@@ -159,7 +159,7 @@
      y
      ```
      
-     コンソールで実行       
+     実行結果
      ```     
      >source("chap2/RECO201.R", echo=TRUE)
 
@@ -1128,13 +1128,441 @@
 
 1. グラフの作成
    1. プロット
+      例題2.21 関数のグラフ  
+      RINT221.R
+      ```
+      # plotを使った場合
+      x = seq(-3,3,len=100)
+      y = x^2
+      plot(x,y,type='l',xlab='x',ylab='y',main='y=x-2')
+      # curveを使った場合
+      curve(x^2,-3,3,type='l',xlab = 'x',ylab='y',main='y= x^2')
+      ```
+      
+      実行結果  
+      ![221](img/221.png)
+
+      例題2.22 複数のグラフ
+      RINT222.R
+      ```
+      curve(sin(x),-2*pi,xlab='x',ylab='y',main='y=sin(x),cos(x)')
+      curve(cos(x),-2*pi,2*pi,add=TRUE)
+      ```
+
+      実行結果  
+      ![222](img/222.png)
+
+      例題2.23 グラフの保存  
+      RINT223.R
+      ```
+      # pngで保存
+      png('img/graph.png')
+      curve(x^2,-3,3,main='y=x^2')
+      dev.off()
+      # epsで保存
+      postscript('img/graph.eps',paper='special',width=4,height=4,horizontal=FALSE)
+      curve(x^2,-3,3,main='y=x^2')
+      dev.off()
+      ```
+
    1. ヒストグラム
+      例題2.24 ヒストグラム
+      RINT224.R
+      ```
+      x = rnorm(1000)
+      par(family="HiraMaruProN-W4")
+      hist(x,25,xlab='正規乱数値',ylab='度数',main='正規分布図(n=1000)')
+      ```
+      
+      実行結果  
+      ![224](img/224.png)
+
    1. その他グラフ
+      例題2.25 対数グラフ
+      RINT225.R
+      ```
+      # 指数関数的データのプロット
+      x=c(1,2,3,4,5)
+      y=c(1/2,1/2^2,1/2^3,1/2^4,1/2^5)
+      plot(x,y)
+      # 片対数グラフ
+      plot(x,y,log='y')
+      # べき乗関数的データのプロット
+      x=c(1,2,3,4,5)
+      y=c(1.4,9,16,25)
+      plot(x,y)
+      # 両対数グラフ
+      plot(x,y,log='xy')
+      ```
+      
+      実行結果  
+      ![225-1](img/225-1.png)
+      ![225-2](img/225-2.png)
+      ![225-3](img/225-3.png)
+      ![225-4](img/225-4.png)            
+
+      例題2.26 グラフの整形
+      RINT226.R
+      ```
+      x = 1:10
+      y = sqrt(x)
+      par(family="HiraMaruProN-W4")      
+      plot(x,y,xlab='x',ylab=expression(sqrt(x)),
+        type='l',
+        main = ' 平方根のグラフ'
+        )
+      ```
+      
+      実行結果  
+      ![226](img/226.png)
+
+      例題2.27 ボックス・プロット
+      RINT227.R
+      ```
+      a = c(79.98,80.04,80.02,80.04,80.03,80.03,80.04,79.97,80.05,80.03,80.02,80.00,80.02)
+      b = c(80.02,79.94,79.98,79.98,79.97,79.97,80.03,79.95,79.97)
+      boxplot(a,b)
+      ```
+      
+      実行結果  
+      ![227](img/227.png)
+
+      例題2.28 幹一葉グラフ
+      RINT228.R
+      ```
+      x = c(18,49,3,5,18,0,27,11,32,22,53,0,7,45,36)
+      stem(x,scale=2)
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT228.R", echo=TRUE)
+
+      > x = c(18,49,3,5,18,0,27,11,32,22,53,0,7,45,36)
+
+      > stem(x,scale=2)
+
+        The decimal point is 1 digit(s) to the right of the |
+
+        0 | 00357
+        1 | 188
+        2 | 27
+        3 | 26
+        4 | 59
+        5 | 3      
+      ```
+
+      例題2.29 棒グラフ
+      RINT229.R
+      ```
+      # 縦棒グラフ
+      x = c(1,2,3,4,5,6,7,8,9,10)
+      y = c(170,185,169,184,177,178,181,170,168,190)
+      barplot(y,xlab='nuber',ylab='value',main='barchart',names.arg=x,ylim=c(0,200))
+      # 横棒グラフ
+      x = c(1,2,3,4,5,6,7,8,9,10)
+      y = c(170,185,169,184,177,178,181,170,168,190)
+      barplot(y,xlab='value',ylab='number',main='barchart',names.arg=x,xlim=c(0,200),horiz=TRUE)
+      ```
+      
+      実行結果  
+      ![229-1](img/229-1.png)
+      ![229-2](img/229-2.png)      
+      
+      例題2.30 円グラフ
+      RINT230.R
+      ```
+      phone = c(47,27,20,2,3)
+      names(phone) = c('DoCoMo','au','Softbank','Emobile','Wilcom')
+      phone.col = c('red','green','white','yellow','cyan')
+      par(family="HiraMaruProN-W4")                  
+      pie(phone,radius=0.9,col=phone.col,main=' 携帯電話のシェア')
+      ```
+      
+      実行結果  
+      ![230](img/230.png)
+      
 1. プログラミング
+
    1. プログラム制御
+
+      例題2.31 条件判定  
+      RINT231.R
+      ```
+      a = scan()
+      if (a>0) print('a is positive') else print('a is not positive')
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT231.R", echo=TRUE)
+
+      > a = scan()
+      1: 3
+      2: 
+      Read 1 item
+
+      > if (a>0) print('a is positive') else print('a is not positive')
+      [1] "a is positive"
+      > source("chap2/RINT231.R", echo=TRUE)
+
+      > a = scan()
+      1: -6
+      2: 
+      Read 1 item
+
+      > if (a>0) print('a is positive') else print('a is not positive')
+      [1] "a is not positive"   
+      ```   
+
+      例題2.32 繰り返し(for)
+      RINT232.R
+      ```
+      n = scan()
+      s = 0
+      for(i in 1:n)
+      {
+          s = s + i
+       }
+       print(s)
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT232.R", echo=TRUE)
+
+      > n = scan()
+      1: 10
+      2: 
+      Read 1 item
+
+      > s = 0
+
+      > for(i in 1:n)
+      + {
+      +     s = s + i
+      + }
+
+      > print(s)
+      [1] 55    
+      ```
+    
+      例題2.33 繰り返し(while)
+      RINT233.R
+      ```
+      n = scan()
+      s = 0
+      i = 0
+      while(i <= n)
+      {
+        s = s+i
+        i = i+1
+      }
+      print(s)
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT233.R", echo=TRUE)
+
+      > n = scan()
+      1: 10
+      2: 
+      Read 1 item
+
+      > s = 0
+
+      > i = 0
+
+      > while(i <= n)
+      + {
+      +     s = s+i
+      +     i = i+1
+      + }
+  
+      > print(s)
+      [1] 55
+      ```
+    
    1. 関数
+   
+      例題2.34 関数
+      RINT234.R
+      ```
+      # プログラム RINT234.R
+      # 1からnまでの整数の和を求める。
+      RINT234 = function(n)
+          {
+              s = 0
+              for(i in 1:n)
+                  {
+                      s = s+i
+                  }
+              print(s)
+          }    
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT234.R", echo=TRUE)
+      > # プログラム RINT234.R
+      > # 1からnまでの整数の和を求める。
+      > RINT234 = function(n)
+      +     {
+      +         s = 0
+      +         for(i in 1:n)
+      +             {
+      +                 s = .... [TRUNCATED] 
+      > RINT234(100)
+      [1] 5050    
+      ```
+
+      例題2.35 再帰呼び出し
+      RINT235.R
+      ```
+      # プログラム RINT235.R
+      # xの階乗を求める。
+      fact = function(x)
+          {
+              ifelse(x==0,1,x*fact(x-1))
+          }
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT235.R", echo=TRUE)
+
+      > # プログラム RINT235.R
+      > # xの階乗を求める。
+      > fact = function(x)
+      +     {
+      +         ifelse(x==0,1,x*fact(x-1))
+      +     }
+      > fact(10)
+      [1] 3628800
+      > fact(0)
+      [1] 1
+      > fact(1)
+      [1] 1    
+      ```
+    
    1. ファイル処理
 
+      例題2.36 ファイル読み込み  
+      read.csv  
+      ```
+      1,2,3,4,5,6,7,8,9,10
+      ```      
+      RINT236.R
+      ```
+      x = read.csv("chap2/rint236.txt",header=FALSE,sep=",")
+      x
+      y = 1:10
+      y
+      mean(y)      
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT236.R", echo=TRUE)
+
+      > x = read.csv("chap2/rint236.txt",header=FALSE,sep=",")
+
+      > x
+        V1 V2 V3 V4 V5 V6 V7 V8 V9 V10
+      1  1  2  3  4  5  6  7  8  9  10
+
+      > y = 1:10
+
+      > y
+       [1]  1  2  3  4  5  6  7  8  9 10
+
+      > mean(y)
+      [1] 5.5      
+      ```
+
+      例題2.37 ファイルへの書き込み
+      RINT237.R
+      ```
+      x = c(1,2,3,4,5,6,7,8,9,10)
+      write(x,"chap2/output.txt",sep = " ",ncolumns=10)
+      write(c("mean(x)=",mean(x)), "chap2/output.txt",append=TRUE)      
+      ```
+      実行結果
+      ```
+      >source("chap2/RINT237.R", echo=TRUE)
+
+      > x = c(1,2,3,4,5,6,7,8,9,10)
+
+      > write(x,"chap2/output.txt",sep = " ",ncolumns=10)
+
+      > write(c("mean(x)=",mean(x)), "chap2/output.txt",append=TRUE)
+      >       
+      ```
+
+      例題2.38 Excelデータの読み込み  
+      Rdata.csv
+      
+      年齢  | 身長 | 体重
+      ----- | -----| -----
+      20    | 176  | 71
+      23    | 181  | 78
+      21    | 173  | 80
+      19    | 179  | 82
+
+
+      RINT238.R
+      ```
+      mydata = read.table("chap2/Rdata.csv",header=TRUE,sep=",")
+      mydata
+      sprintf("身長平均 = %5.2f", mean(mydata$身長))
+      sprintf("体重平均 = %5.2f", mean(mydata$体重))      
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT238.R", echo=TRUE)
+
+      > mydata = read.table("chap2/Rdata.csv",header=TRUE,sep=",")
+
+      > mydata
+        年齢 身長 体重
+      1   20  176   71
+      2   23  181   78
+      3   21  173   80
+      4   19  179   82
+
+      > sprintf("身長平均 = %5.2f", mean(mydata$身長))
+      [1] "身長平均 = 177.25"
+
+      > sprintf("体重平均 = %5.2f", mean(mydata$体重))
+      [1] "体重平均 = 77.75"      
+      ```
+
+      例題2.39 ファイル読み込み
+      RINT239.R
+      ```
+      mydata2 = data.frame(
+          年齢 = c(20,23,21,19),
+          身長 = c(176,181,173,179),
+          体重 = c(71,78,80,82))
+      write.table(mydata2,"chap2/sample.csv",sep=",",row.names=FALSE)
+      yy = read.table("chap2/sample.csv",header=TRUE,sep=",")
+      yy      
+      ```
+      実行結果
+      ```
+      > source("chap2/RINT239.R", echo=TRUE)
+
+      > mydata2 = data.frame(
+      +     年齢 = c(20,23,21,19),
+      +     身長 = c(176,181,173,179),
+      +     体重 = c(71,78,80,82))
+
+      > write.table(mydata2,"chap2/sample.csv",sep=",",row.names=FALSE)
+
+      > yy = read.table("chap2/sample.csv",header=TRUE,sep=",")
+
+      > yy
+        年齢 身長 体重
+      1   20  176   71
+      2   23  181   78
+      3   21  173   80
+      4   19  179   82      
+      ```
+      
 ## <a name="chapter3">確率と統計 ##
 1. 確率
    1. 確率の基礎概念
