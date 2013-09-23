@@ -1565,34 +1565,391 @@
       
 ## <a name="chapter3">確率と統計 ##
 1. 確率
-   + 確率(probability)は、ある事象が起こる確からしさを「0」「1」の間の１つの実数値で表したものである。
-   + 試行(trial)・・・観測や実験。
-   + 事象(event)・・・試行によって生じる様々な結果の集合。ある事象をAとするとき、Aの起こる確率をP(A)と書くことにする。
-   1. 確率の基礎概念
-      + Aの補集合(complement)
-        $$ A^{c} $$
-        ![equation](http://latex.codecogs.com/gif.latex?A^{c})
-      + AとBの結合集合(union)
-        $$ {A}\cup{B} $$
-        ![equation](http://latex.codecogs.com/gif.latex?{A}\cup{B})
-        {% math %}{A}\cup{B}{% endmath %}
-      + AとBの共通集合(intersection)
-        $$ {A}\cap{B} $$
-        ![equation](http://latex.codecogs.com/gif.latex?{A}\cap{B})
-      + 空集合(empty set)
-        $$ \emptyset $$ 
-        ![equation](http://latex.codecogs.com/gif.latex?\emptyset)        
-        
-   1. 確率の公理的定義
+
+   確率(probability)は、ある事象が起こる確からしさを「0」「1」の間の１つの実数値で表したものである。  
+   試行(trial)・・・観測や実験。  
+   事象(event)・・・試行によって生じる様々な結果の集合。ある事象をAとするとき、Aの起こる確率をP(A)と書くことにする。  
+
+   1. 確率の基礎概念  
+      いま、すべての事象の集合を$\Omega$とすると、ある１つの事象Aは$\Omega$の部分集合と考えられる。  
+      なお、$\Omega$の部分集合A,B,..について定義される集合を次のように表記する。  
+      + $A^{c}$・・・Aの補集合(complement)        
+      + ${A}\cup{B}$・・・AとBの結合集合(union)        
+      + ${A}\cap{B}$・・・AとBの共通集合(intersection)        
+      + $\emptyset$ ・・・空集合(empty set)                
+   1. 確率の公理的定義  
+      いま、$\Omega$のすべての部分集合の集合(べき集合)をSとすると、確率の公理システムは次の３つの公理からなる。  
+      + $(P1)任意の事象A \in Sについて、P(A) \leq １である。$
+      + $(P2)事象A \in Sが確実に起こるならば、P(A) = 1である。$
+      + $(P3)事象A,B \in Sが互いに排反ならば、P(A \cup B) = P(A) + P(B)である。$
    1. 条件付確率
-1. 確率変数と確率分布
-   1. 離散確率変数
+      事象A,Bについて$P(A) \neq 0$ならば、Aが起こったときのBの条件付確率(conditional probablility)は$P(B \mid A)$と書く。  
+      $$
+      P(B \mid A) = \frac{P(A \cap B)}{P(A)}
+      $$
+1. 確率変数と確率分布  
+
+    確率変数(rondom variable)・・・事象を表す変数のこと。  
+   
+   1. 離散確率変数  
+      いま、確率変数の定義域を${a_{1},a_{2},...}$とし、$P(X = a_{i})$が与えられているとき、Xを離散確率変数という。  
+      $P(X = a_{i}) = p_{i}$としたとき
+      $$
+      (a_{i},p_{i})(i = 1,2,...\sum_{i}^{}a_{i}p_{i} = 1)
+      $$
+      はXの確率分布(probability distribution)という。
+      一般に、確率変数に対して、平均値(average),分散(variance)、標準偏差値(standard deviation)の概念を定義できる。  
+      + Xの平均値:$E(X) = \sum_{i}^{}a_{i}p_{i}$
+      + Xの分散:  $V(X) = E((X-E(X))^{2})$
+      + Xの標準編纂: $\sigma X = \sqrt{V(X)}$
    1. 連続確率変数
-   1. 主な確率分布
+      連続確率変数は、ある値を取る確率ではなく、取る値がある区間に入る確率を表す。  
+      いま、dxを微小な項とし、
+      $$
+      P(x < X \leq x + dx) = f(x)dx
+      $$
+      とするとき、Xは連続確率変数といい、f(x)はXの確率密度関数(probability density function)という。  
+      よって、次の関係が成り立つ。
+      $$
+      P(a < X \leq b) = \int_{a}^{b}f(x)dx
+      $$
+      連続確率変数では、平均値、分散、標準偏差は以下のように定義される。 
+      $$E(X) = \int_{- \infty}^{\infty}xf(x)dx$$      
+      $$V(X) = \int_{- \infty}^{\infty}(x - E(X))^{2}f(x)dx$$
+      $$\sigma x = \sqrt{V(X)}$$
+      確率変数Xの取る値が$x_{i}$ であり、x以下である確率を考えると、この関数はxの関数となるが、これを分布関数(distribution function)という。
+      $$
+      F(x) = P(X \leq x)(- \infty \leq x \leq \infty)
+      $$
+      連続確率変数の分布関数は、なめらかな関数となる。  
+      $$
+      P(a < x \leq) = F(b) - F(a) = \int_{a}^{b}f(x)dx
+      $$
+      離散確率変数の分布関数
+      $$
+      F(x) = \sum_{xk \leq x}^{}pk
+      $$
+      
+   1. 主な確率分布  
+      ある事象Eの起こる確率をpとし、試行を何回も独立に行ったとする。このような試行をn回繰り返したときに、r回Eの起こる確率P(X = r)は
+      $$
+      P(X = r) = {}_n C_r p^{r}(1 - p)^{n - r}
+      $$
+      ２項分布は、以下の性質を満足する。  
+      $$
+      \sum_{r=0}^{n}P(X = r) = \sum_{r=0}^{n} {}_n C_r p^{r}(1 - p)^{n - r} = 1
+      $$
+
+      例題3.1 ２項分布  
+      RINT301.R
+      ```
+      x = 0:50
+      y = dbinom(x,50,0.25)
+      par(family="HiraMaruProN-W4")                  
+      plot(x,y,type='h',xlab='x',ylab='y',main=' 二項分布')
+      ```
+
+      実行結果  
+      ![301](img/301.png)
+      
+      ポアソン分布
+      
+  $$
+  P(X = r) = \frac{ \lambda^{r}}{r!}e^{-\lambda} (\lambda > 0)
+  $$
+
+      例題3.2 ポワソン分布  
+      RINT302.R
+      ```
+      x = 0:7
+      y = dpois(x,3)
+      par(family="HiraMaruProN-W4")                  
+      plot(x,y,type='l',xlab='x',ylab='y',main=' ポワソン分布')
+      ```
+     
+      実行結果  
+      ![302](img/302.png)
+
+      正規分布
+
+   $$
+   f(x) = \frac{1}{\sqrt{2\pi\sigma}}e^{-\frac{(x-\mu^{2})}{2\sigma^{2}}}
+   $$
+   標準正規分布(standardized normal distribution)
+   $$
+   f(x) = \frac{1}{\sqrt{2\pi}}e^{-\frac{x^{2}}{2}}
+   $$
+   
+      例題3.3 正規分布  
+      RINT303.R
+      ```
+      x = seq(-5,5,by=0.1)
+      y = dnorm(x,0,1)
+      par(family="HiraMaruProN-W4")                  
+      plot(x,y,type='l',xlab='x',ylab='y',main=' 標準正規分布 N(1,0)')
+      ```
+     
+      実行結果  
+      ![303](img/303.png)
+
+      一様分布
+
+   $$
+   f(x) = \frac{1}{b-a} ( x \in [a,b])
+   $$
+   $$
+   f(x) = 0 (x not \in [a,b])
+   $$
+   
+      例題3.4 一様分布  
+      RINT304.R
+      ```
+      x = 0:1
+      y = dunif(x,0,1)
+      par(family="HiraMaruProN-W4")                  
+      plot(x,y,type='l',xlab='x',ylab='y',main=' 一様分布')
+      ```
+     
+      実行結果  
+      ![304](img/304.png)
+
+      例題3.5 二項分布の平均値と分散  
+      １２個のサイコロを同時に投げて、「５」または「６」の目が出た回数。
+      
+      回数  |  0   | 1    | 2    | 3   | 4   | 5   | 6   | 7   | 8   | 9   | 10  | 11  | 12  |
+      ----- | -----| -----| -----|-----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+      度数  |  185 | 1149 | 3265 | 5475| 6114| 5194| 3067| 1331| 403 | 105 | 18  | 0   | 0   |
+
+      RINT305.R
+      ```
+      x = c(0,1,2,3,4,5,6,7,8,9,10,11,12)
+      x
+      y=c(185,1149,3265,5475,6114,5194,3067,1331,403,105,19,0,0)
+      y
+      n=sum(y)
+      heikin=sum(x*y)/n
+      heikin
+      bunsan=sum((x-heikin)^2*y/n)
+      bunsan
+      # 実験による結果
+      par(family="HiraMaruProN-W4")                  
+      plot(y/n~x,xlab="x",ylab="確率(実験)")
+      # ２項分布B(12,1/3)
+      pp=dbinom(0:12,size=12,prob=1/3)
+      pp
+      par(family="HiraMaruProN-W4")                  
+      plot(pp,xlab="x",ylab="確率")
+      ```
+     
+      実行結果  
+      ![305-1](img/305-1.png)
+      ![305-2](img/305-2.png)
+
+      例題3.6 ポワソン分布の確認  
+      ロンドンの南部地区を567個に分けて、それらの地区がV-2により何度爆撃されたかを調べた結果
+      
+      回数    |  0   | 1    | 2    | 3   | 4   | 5   | 6以上|
+      ------- | -----| -----| -----|-----|-----|-----|------|
+      地区数  |  229 | 211  | 93   | 35  | 7   | 1   | 0    |
+
+      RINT306.R
+      ```
+      x = c(0,1,2,3,4,5)
+      x
+      y = c(229,211,93,35,7,1)
+      y
+      地区総数 = sum(y)
+      地区総数
+      平均 = sum(x*y)/地区総数
+      平均
+      分散 = sum((x-平均)^2*y)/地区総数
+      分散
+      # データによる結果
+      par(family="HiraMaruProN-W4")                  
+      plot(y/地区総数~x)
+      # ポワソン分布
+      pd = dpois(x=0:5,lambda=平均)
+      par(family="HiraMaruProN-W4")                  
+      plot(pd,xlab='x',ylab='Poison 分布')
+      ```
+     
+      実行結果  
+      ![306-1](img/306-1.png)
+      ![306-2](img/306-2.png)
+
+      例題3.7 正規分布の確認  
+      標準正規分布の平均(=0)と分散(=1)を正規乱数1000個を用いて確認。      
+      
+      RINT307.R
+      ```
+      x = rnorm(10000)
+      mean(x)
+      sd(x)
+      ```
+     
+      実行結果  
+      ```
+      > source("chap3/RINT307.R", echo=TRUE)
+
+      > x = rnorm(10000)
+
+      > mean(x)
+      [1] -0.008778838
+
+      > sd(x)
+      [1] 1.007761      
+      ```      
+
 1. 乱数
    1. 乱数の種類
+      + 正規乱数(normal random number)・・・正規分布に従う乱数。
+      + 一様乱数(uniform random number)・・・ある区間内のすべての実数が同じ確率で出現する乱数。
+      + 擬似乱数(pseudo-random number)・・・コンピュータで生成される乱数であり、前の乱数の値から次の乱数の値を計算して乱数を発生させる。     
    1. 乱数の分布
+      例題3.8 正規乱数とヒストグラム
+
+      RINT308.R
+      ```
+      # ヒストグラム(1000個、25分割)
+      x = rnorm(1000)
+      par(family="HiraMaruProN-W4")                  
+      hist(x,25,xlab=' 正規乱数値',ylab=' 度数',main=' 正規分布(n=1000)')
+      # ヒストグラム(1000個、30分割)
+      x = rnorm(1000)
+      par(family="HiraMaruProN-W4")                  
+      hist(x,30,xlab=' 正規乱数値',ylab=' 度数',main=' 正規分布(n=1000)')
+      # ヒストグラムと近似曲線(1000個、30分割)
+      x = rnorm(1000)
+      par(family="HiraMaruProN-W4")                  
+      hist(x,30,prob=TRUE,xlab=' 正規乱数値',ylab=' 度数',main=' ヒストグラムと近似曲線')
+      lines(density(x))      
+      ```
+     
+      実行結果  
+      ![308-1](img/308-1.png)
+      ![308-2](img/308-2.png)
+      ![308-3](img/308-3.png)
+
+      例題3.9 二項乱数
+
+      RINT309.R
+      ```
+      pp = rbinom(1000,size=1,p=0.5)
+      sum(pp)
+      pp = rbinom(1000,size=1,p=0.5)
+      sum(pp)
+      ```
+     
+      実行結果  
+      ```
+      > source("chap3/RINT309.R", echo=TRUE)
+
+      > pp = rbinom(1000,size=1,p=0.5)
+
+      > sum(pp)
+      [1] 500
+
+      > pp = rbinom(1000,size=1,p=0.5)
+
+      > sum(pp)
+      [1] 485      
+      ``` 
+      
    1. 乱数の平均と標準偏差
+
+      例題3.10 一様乱数
+
+      RINT310.R
+      ```
+      set.seed(123)
+      x = runif(10)
+      x
+      mean(x)
+      sd(x)
+      set.seed(123)
+      x = runif(10)
+      x
+      ```
+     
+      実行結果  
+      ```
+      > source("chap3/RINT310.R", echo=TRUE)
+
+      > set.seed(123)
+
+      > x = runif(10)
+
+      > x
+       [1] 0.2875775 0.7883051 0.4089769 0.8830174 0.9404673 0.0455565 0.5281055
+       [8] 0.8924190 0.5514350 0.4566147
+
+      > mean(x)
+      [1] 0.5782475
+
+      > sd(x)
+      [1] 0.29474
+
+      > set.seed(123)
+
+      > x = runif(10)
+
+      > x
+       [1] 0.2875775 0.7883051 0.4089769 0.8830174 0.9404673 0.0455565 0.5281055
+       [8] 0.8924190 0.5514350 0.4566147
+      ```
+
+      例題3.11 正規乱数
+
+      RINT311.R
+      ```
+      options(digits=2)
+      nr = rnorm(10)
+      nr
+      mean(nr)
+      sd(nr)
+
+      x = rnorm(1000)
+      mean(x)
+      sd(x)
+      ```
+     
+      実行結果  
+      ```
+      > source("chap3/RINT311.R", echo=TRUE)
+
+      > options(digits=2)
+
+      > nr = rnorm(10)
+
+      > nr
+       [1]  0.19  0.23 -1.26  0.29  1.75 -0.16 -0.16  1.40  0.90 -1.65
+
+      > mean(nr)
+      [1] 0.15
+
+      > sd(nr)
+      [1] 1.1
+
+      > x = rnorm(1000)
+
+      > mean(x)
+      [1] 0.04
+
+      > sd(x)
+      [1] 1
+      ```
+
+      例題3.12 正規乱数と正規分布
+
+      RINT312.R
+      ```
+      x = rnorm(1000)
+      qqnorm(x)
+      qqline(x)
+      ```
+     
+      実行結果  
+      ![312](img/312.png)
 
 ## <a name="chapter4">統計分析 ##
 1. 代表値
@@ -1669,3 +2026,5 @@
 [TeX数式コマンド一覧](http://ballrw.web.fc2.com/command/command.html)
 
 [iTex2Img](http://www.sciweavers.org/free-online-latex-equation-editor)
+
+[Equations in HTML (SVG + GIF)](http://www.codecogs.com/latex/htmlequations.php)
