@@ -1565,7 +1565,24 @@
       
 ## <a name="chapter3">確率と統計 ##
 1. 確率
+   + 確率(probability)は、ある事象が起こる確からしさを「0」「1」の間の１つの実数値で表したものである。
+   + 試行(trial)・・・観測や実験。
+   + 事象(event)・・・試行によって生じる様々な結果の集合。ある事象をAとするとき、Aの起こる確率をP(A)と書くことにする。
    1. 確率の基礎概念
+      + Aの補集合(complement)
+        $$ A^{c} $$
+        ![equation](http://latex.codecogs.com/gif.latex?A^{c})
+      + AとBの結合集合(union)
+        $$ {A}\cup{B} $$
+        ![equation](http://latex.codecogs.com/gif.latex?{A}\cup{B})
+        {% math %}{A}\cup{B}{% endmath %}
+      + AとBの共通集合(intersection)
+        $$ {A}\cap{B} $$
+        ![equation](http://latex.codecogs.com/gif.latex?{A}\cap{B})
+      + 空集合(empty set)
+        $$ \emptyset $$ 
+        ![equation](http://latex.codecogs.com/gif.latex?\emptyset)        
+        
    1. 確率の公理的定義
    1. 条件付確率
 1. 確率変数と確率分布
@@ -1646,3 +1663,9 @@
 
 # 参照 #
 [やさしいR入門](http://www.amazon.co.jp/%E3%82%84%E3%81%95%E3%81%97%E3%81%84R%E5%85%A5%E9%96%80%E2%80%95%E5%88%9D%E6%AD%A9%E3%81%8B%E3%82%89%E5%AD%A6%E3%81%B6R-%E7%B5%B1%E8%A8%88%E5%88%86%E6%9E%90-%E8%B5%A4%E9%96%93-%E4%B8%96%E7%B4%80/dp/4877832696)
+
+[MathJax](http://www.mathjax.org/demos/tex-samples/)
+
+[TeX数式コマンド一覧](http://ballrw.web.fc2.com/command/command.html)
+
+[iTex2Img](http://www.sciweavers.org/free-online-latex-equation-editor)
