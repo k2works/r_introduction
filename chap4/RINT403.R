@@ -1,0 +1,8 @@
+quantile(y)
+IQR(y)
+quantile(y,prob=0)
+quantile(y,prob=0.25)
+quantile(y,prob=0.5)
+quantile(y,prob=0.75)
+quantile(y,prob=0.9)
+quantile(y,prob=1.0)

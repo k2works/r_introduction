@@ -1953,18 +1953,396 @@
 
 ## <a name="chapter4">統計分析 ##
 1. 代表値
+
+   代表値・・・平均値、中央値、最頻値、パーセンタイル  
+   散布度・・・分散、標準偏差、範囲、四分位偏差、変動係数、尖度、歪度
+   
    1. 平均
+      算術平均(arithmetic mean)
+      $$
+      m = \frac{1}{n}\sum_{i=1}^{n}x_{i}
+      $$
+
+      例題4.1 平均      
+      
+      RINT401.R
+      ```
+      x = c(4,1,-3,5,-2,7,-3.5,-1,4.6)
+      n = NROW(x); n
+      mean(x)
+      ```
+     
+      実行結果  
+      ```
+      > source('chap4/RINT401.R', echo=TRUE)
+
+      > x = c(4,1,-3,5,-2,7,-3.5,-1,4.6)
+
+      > n = NROW(x); n
+      [1] 9
+
+      > mean(x)
+      [1] 1.344444
+      ```
    1. 中央値
+   
+      中央値(median)
+      $$
+      med = x_{m} \;\;\; (m = (n + 1)/2)
+      $$
+
+   $$
+   med = x_{m} + x_{m+1}/2  \;\;\; m = n/2
+   $$
+
+      例題4.2 中央値
+      
+      RINT402.R
+      ```
+      x = c(4,1,-3,5,-2,7,-3.5,-1,4.6)
+      median(x)
+      y = c(3,1,4,2)
+      median(y)
+      ```
+     
+      実行結果  
+      ```
+      > source('chap4/RINT402.R', echo=TRUE)
+
+      > x = c(4,1,-3,5,-2,7,-3.5,-1,4.6)
+
+      > median(x)
+      [1] 1
+
+      > y = c(3,1,4,2)
+
+      > median(y)
+      [1] 2.5
+      ```         
    1. パーセンタイル
+
+      データを昇順に並べたときの小さい方から数えて全体のある%に位置する値。  
+   $$
+   p\_perc = (1 - a)d_{m+1} + ad_{m+2}
+   $$
+
+      例題4.3 パーセンタイル
+      
+      RINT403.R
+      ```
+      quantile(y)
+      IQR(y)
+      quantile(y,prob=0)
+      quantile(y,prob=0.25)
+      quantile(y,prob=0.5)
+      quantile(y,prob=0.75)
+      quantile(y,prob=0.9)
+      quantile(y,prob=1.0)
+      ```
+     
+      実行結果  
+      ```
+      > source('chap4/RINT403.R', echo=TRUE)
+
+      > quantile(y)
+        0%  25%  50%  75% 100% 
+      1.00 1.75 2.50 3.25 4.00 
+
+      > IQR(y)
+      [1] 1.5
+
+      > quantile(y,prob=0)
+      0% 
+       1 
+
+      > quantile(y,prob=0.25)
+       25% 
+      1.75 
+      
+      > quantile(y,prob=0.5)
+      50% 
+      2.5 
+
+      > quantile(y,prob=0.75)
+       75% 
+      3.25 
+
+      > quantile(y,prob=0.9)
+      90% 
+      3.7 
+
+      > quantile(y,prob=1.0)
+      100% 
+         4 
+      ```
+      
 1. 散布度
    1. 分散
+      分散(variance)・・・データのばらつきを表す。
+      $$
+      s^{2} = \frac{1}{n}\sum_{i=1}^{n}(x_{i}-m)^{2}
+      $$
+      不偏分散(unbiased variance)・・・$s^{2}$の定義の分母$n$を$n-1$に変えて得られる分散。
+      $$
+      u^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(x_{i}-m)^{2}
+      $$
+      偏差平方和(sum of square bias)
+      $$
+      S = \sum_{i=1}^{n}(x_{i}-m)^{2}
+      $$
+      偏差(bias)
+      $$
+      x_{i}-m
+      $$
    1. 標準偏差
+      標準編纂(standard deviation)・・・分散の平方根。
+      $$
+      \sigma = \sqrt{V}
+      $$
    1. 範囲
+      範囲(range)・・・最大値から最小値を引いた値であり、データのばらつきを表す。
+      $$
+      R = Max - Min
+      $$
    1. 変動係数
+      変動係数(coeffcient of variation)・・・標準偏差を平均で割った値であり、単位の異なるデータのばらつきを表す。
+      $$
+      C = \frac{\sigma}{m}
+      $$
+
+      例題4.4 散布度
+      
+      RINT404.R
+      ```
+      x = c(4,1,-3,5,-2,7,-3.5,-1,4.6)
+      n = NROW(x)
+      n
+      range(x)
+      IQR(x)
+      IQR(x)/2
+      var(x)
+      sd(x)
+      sum((x-mean(x))^2)/n
+      sqrt(sum((x-mean(x))^2)/n)
+      C = sd(x)/mean(x)
+      C
+      ```
+     
+      実行結果  
+      ```
+      > source('chap4/RINT404.R', echo=TRUE)
+
+      > x = c(4,1,-3,5,-2,7,-3.5,-1,4.6)
+
+      > n = NROW(x)
+
+      > n
+      [1] 9
+
+      > range(x)
+      [1] -3.5  7.0
+
+      > IQR(x)
+      [1] 6.6
+
+      > IQR(x)/2
+      [1] 3.3
+
+      > var(x)
+      [1] 15.26778
+
+      > sd(x)
+      [1] 3.9074
+
+      > sum((x-mean(x))^2)/n
+      [1] 13.57136
+
+      > sqrt(sum((x-mean(x))^2)/n)
+      [1] 3.683932
+
+      > C = sd(x)/mean(x)
+
+      > C
+      [1] 2.906331
+      ```
+
+      例題4.5 5数要約
+
+      下ヒンジ値(lower hinji)・・・最小値と中央値の間の中央値  
+      上ヒンジ値(upper hinji)・・・中央値と最大値の間の中央値
+      
+      RINT405.R
+      ```
+      y = c(3,1,4,2)
+      fivenum(y)
+      ```
+     
+      実行結果  
+      ```
+      > source('chap4/RINT405.R', echo=TRUE)
+
+      > y = c(3,1,4,2)
+
+      > fivenum(y)
+      [1] 1.0 1.5 2.5 3.5 4.0
+      ```
+
+      例題4.6 歪度と尖度
+      歪度(kurtosis)・・・ゆがみを表す値  
+$$
+Sk = \frac{n}{(n-1)(n-2)}\frac{1}{u^{3}}\sum_{i=1}^{n}(x_{i}-m)^{3}
+$$
+      $Sk=0$ならば左右対称であることを意味し、$Sk>0$ならば右に、$Sk<0$左に歪んでいることを意味する。
+
+      尖度(skewness)・・・とがりを表す値
+$$
+Ku = \frac{n(n+1)}{(n-1)(n-2)(n-3)}\frac{1}{u^{4}}\sum_{i=1}^{n}(x_{i}-m)^{4}-\frac{3(n-1)^{2}}{(n-2)(n-3)}
+$$
+      $Ku=0$ならば正規分布と同じ形であることを意味し、$Ku>0$ならば正規分布より尖っている、$Ku<0$ならば正規分布より扁平である。
+
+      RINT406.R
+      ```
+      # 歪度
+      x = c(1.89,2.43,2.37,2.3,1.74)
+      n = length(x)
+      Sk=((n/((n-1)*(n-2)))*sum((x-mean(x))^3))/((sqrt(var(x)))^3)
+      Sk
+      # 尖度
+      Ku=(((n*(n+1))/((n-1)*(n-2)*(n-3)))*sum((x-mean(x))^4))/((sqrt(var(x)))^4) - (3*((n-1)^2))/((n-2)*(n-3))
+      Ku
+      ```
+     
+      実行結果  
+      ```
+      > # 歪度
+      > x = c(1.89,2.43,2.37,2.3,1.74)
+
+      > n = length(x)
+
+      > Sk=((n/((n-1)*(n-2)))*sum((x-mean(x))^3))/((sqrt(var(x)))^3)
+
+      > Sk
+      [1] -0.6407088
+
+      > # 尖度
+      > Ku=(((n*(n+1))/((n-1)*(n-2)*(n-3)))*sum((x-mean(x))^4))/((sqrt(var(x)))^4) - (3*((n-1)^2))/((n-2)*(n-3))
+
+      > Ku
+      [1] -2.458639
+      ```
+
 1. 相関係数
    1. 相関関係
    1. 相関係数
+      相関係数(correlarion coefficient)
+      $$
+      r = cor(x,y) = \frac{\sum_{}^{}(x_{i}-\overline{x})(y-\overline{y})}{\sqrt{\sum_{}^{}(x_{i}-\overline{x})^2\sum_{}^{}(y_{i}-\overline{y})^2}}
+      $$
 
+   $0.8 \leq |r|$:強い相関あり  
+   $0.6 \leq |r|<0.8$:相関有り  
+   $0.4 \leq |4|<0.6$:弱い相関有り  
+   $|r| < 0.4$:相関無し
+
+      例題4.7 相関（１）
+
+            | 軌道長半径 | 質量     | 公転周期
+      ----- | -----      | -----    | -----
+      水星  | 0.3871     | 0.05527  | 0.24085
+      金星  | 0.7233     | 0.815    | 0.61521
+      地球  | 1          | 1        | 1
+      火星  | 1.5237     | 0.1074   | 1.88089
+      木星  | 5.2026     | 317.83   | 11.8622
+      土星  | 9.5549     | 95.16    | 29.4578
+      天王星  | 19.2184  | 14.54    | 84.0223
+      海王星  | 30.1104  | 17.15    | 164.774
+      冥王星  | 39.5405  | 0.0023   | 247.796
+
+      RINT407.R
+      ```
+      length=c(0.3871,0.7233,1,1.5237,5.2026,9.5549,19.2184,30.1104,39.5405)
+      mass=c(0.05527,0.815,1,0.1074,317.83,95.16,14.54,17.15,0.0023)
+      cor.test(length,mass)
+      plot(length,mass)      
+      ```
+     
+      実行結果  
+      ```      
+      >source('chap4/RINT407.R', echo=TRUE)
+
+      > length=c(0.3871,0.7233,1,1.5237,5.2026,9.5549,19.2184,30.1104,39.5405)
+
+      > mass=c(0.05527,0.815,1,0.1074,317.83,95.16,14.54,17.15,0.0023)
+
+      > cor.test(length,mass)
+
+      	Pearson's product-moment correlation
+
+      data:  length and mass
+      t = -0.4313, df = 7, p-value = 0.6792
+      alternative hypothesis: true correlation is not equal to 0
+      95 percent confidence interval:
+       -0.7453655  0.5634400
+      sample estimates:
+            cor 
+      -0.160883 
+
+
+      > plot(length,mass)      
+
+      ```
+      ![407](img/407.png)
+
+      例題4.8 相関（２）
+
+      体温  | 心拍数
+      ----- | -----      
+      38.8  | 493.5
+      33.0  | 399.0
+      39.2  | 485.0
+      35.8  | 476.7
+      16.8  | 244.4
+      12.9  | 199.0
+      12.3  | 195.4
+       9.4  |  96.2
+       8.6  |  77.5
+       8.3  |  68.4
+       8.1  |  63.4
+
+      RINT408.R
+      ```
+      temp = c(38.8,33.0,39.2,35.8,16.8,12.9,12.3,9.4,8.6,8.3,8.1)
+      count = c(493.5,399.0,485.0,476.7,244.4,199.0,195.4,96.2,77.5,68.4,63.4)
+      cor.test(temp,count)
+      plot(temp,count)
+      ```
+     
+      実行結果  
+      ``` 
+      >source('chap4/RINT408.R', echo=TRUE)
+
+      > temp = c(38.8,33.0,39.2,35.8,16.8,12.9,12.3,9.4,8.6,8.3,8.1)
+
+      > count = c(493.5,399.0,485.0,476.7,244.4,199.0,195.4,96.2,77.5,68.4,63.4)
+
+      > cor.test(temp,count)
+
+      	Pearson's product-moment correlation
+
+      data:  temp and count
+      t = 17.6374, df = 9, p-value = 2.743e-08
+      alternative hypothesis: true correlation is not equal to 0
+      95 percent confidence interval:
+       0.9445615 0.9964399
+      sample estimates:
+            cor 
+      0.9858406 
+
+
+      > plot(temp,count)
+      ```
+      ![408](img/408.png)      
+    
 ## <a name="chapter5">推定と検定 ##
 1. 標本分布
    1. 標本抽出
