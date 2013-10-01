@@ -2345,13 +2345,430 @@ $$
     
 ## <a name="chapter5">推定と検定 ##
 1. 標本分布
-   1. 標本抽出
-   1. 標本変量
+
+   母集団(population)・・・研究対象となるデータの集団  
+       無限母集団(infinite population)  
+       有限母集団(finite population)  
+       
+   母集団のデータを分析するための調査方法  
+       全数調査(complete survey)  
+       標本調査(sample survey)  
+
+   標本(sample)・・・母集団の一部  
+   標本の大きさ(sample size)・・・標本に含まれるデータ数
+   
+   1. 標本抽出  
+      有意抽出(purposive sampling)・・・専門家の判断を加えてから標本を選ぶ方法  
+      無作為抽出(rondom sampling)・・・母集団から各データを決まった確率で取り出す方法  
+      復元抽出(sampling with replacement)・・・無作為抽出でデータを１つずつ取り出したデータを戻す場合  
+      非復元抽出(sampling without replacement)・・・無作為抽出でデータを１つずつ取り出したデータを戻さない場合  
+      母平均(population mean)・・・確率変数Xの平均E(X)  
+      母分散(population variance)・・・確率変数Xの分散V(X)  
+      母数(population parameter)・・・母平均と母分散を合わせたもの  
+      
+   1. 標本変量  
+      標本変量(sample value)・・・大きさnの標本の確率変数の組($X_{1}$...,$X_{n}$)  
+      標本平均(sample mean)  
+      $$
+      \overline{X} = \frac{1}{n}\sum_{i=1}^{n}X_{i}
+      $$
+      標本分散(sample variance)  
+      $$
+      S^{2} = \frac{1}{n}\sum_{i=1}^{n}(X_{i}-\overline{X})^{2}
+      $$
+      統計量(statistical value)・・・標本変量の関数  
+      標本分布(sample distribution)・・・統計量の確率分布
+      不偏分散(unviased variance)
+      $$
+      u^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\overline{X})^{2}
+      $$
+      標本平均$\overline{X}$の平均と分散
+      $$
+      E(\overline{X}) = \frac{1}{n}\sum_{i=1}^{n}E(X_{i}) = m
+      $$
+      $$
+      V(\overline{X}) = \frac{1}{n^{2}}\sum_{i=1}^{n}V(X_{i}) = \frac{\sigma^{2}}{n}
+      $$
+   
 1. 推量
-   1. 点推定と区間推定
-   1. 母平均の推定
+
+   推定(estimation)・・・標本の値から母集団の性質を推定すること
+   
+   1. 点推定と区間推定  
+      点推定(point estimation)・・・未知パラメータの特定の数値を推定する方法  
+      区間推定(interval estimation)・・・未知パラメータが取り得る一定の範囲を推定する方法  
+      
+   1. 母平均の推定  
+      例題5.1 母分散が既知である場合の母平均の区間推定
+      $$
+      \overline{X} = \frac{1.89+2.43+2.37+2.30+1.74}{5} = 2.146
+      $$
+      $$
+      z(\frac{\alpha}{2}) = z(0.025)
+      $$
+      $$
+      z(0.025) = 1.96
+      $$
+      $$
+      z(\frac{\alpha}{2})\frac{\sigma}{\sqrt{n}} = 1.96\frac{0.2}{\sqrt{5}} = 0.1753
+      $$
+      $$
+      T_{1} = \overline{X} - z(\frac{\alpha}{2})\frac{\sigma}{\sqrt{n}} = 2.146 - 0.1753 = 1.9707
+      $$
+      $$
+      T_{2} = \overline{X} + z(\frac{\alpha}{2})\frac{\sigma}{\sqrt{n}} = 2.146 + 0.1753 = 2.3213
+      $$      
+     
+      RINT501.R
+      ```
+      data = c(1.89,2.43,2.37,2.30,1.74)
+      n = 5
+      sigma = 0.2
+      a = 0.05
+      Xb = mean(data)
+      Xb
+      u = qnorm(1-a/2)
+      u
+      T1 = Xb-u*sigma/sqrt(n)
+      T1
+      T2 = Xb+u*sigma/sqrt(n)
+      T2      
+      ```
+     
+      実行結果  
+      ```
+      > source('chap5/RINT501.R', echo=TRUE)
+
+      > data = c(1.89,2.43,2.37,2.30,1.74)
+
+      > n = 5
+
+      > sigma = 0.2
+
+      > a = 0.05
+
+      > Xb = mean(data)
+
+      > Xb
+      [1] 2.146
+
+      > u = qnorm(1-a/2)
+
+      > u
+      [1] 1.959964
+
+      > T1 = Xb-u*sigma/sqrt(n)
+
+      > T1
+      [1] 1.970695
+
+      > T2 = Xb+u*sigma/sqrt(n)
+
+      > T2
+      [1] 2.321305      
+      ```      
+      母分散が未知の場合の母平均区間推定  
+  $$
+  u^{2} = \frac{1}{n-1}\sum_{i=1}^{n}(X_{i}-\overline{X_{i}})^2
+  $$
+      $$
+      T_{i} = \frac{\overline{X_{i}}-m}{u_{i}/\sqrt{n}}
+      $$
+      $$
+      t=\frac{\overline{X}-m}{u/\sqrt{n}}
+      $$
+      $$
+      f_{\phi}(t) = \frac{\Gamma((\phi+1)/2)}{\Gamma(\phi/2)\sqrt{\pi\phi}}
+      $$
+      $\phi=n-1$は自由度を表し、$\Gamma$は$\Gamma$関数を表す。
+
+      例題5.2 t分布のグラフ
+     
+      RINT502.R
+      ```
+      x = seq(-5,5,by=0.1)
+      y = dt(x,1,log=FALSE)
+      par(family="HiraMaruProN-W4")                  
+      plot(x,y,type='l',xlab='x',ylab='y',main='t 分布')
+      ```
+     
+      ![502](img/502.png)      
+
+      例題5.3 母分散が未知である場合の母平均の区間測定  
+      ある納品された製品の直径を調べたところ、以下のようなサンプル数16個のデータが得られた。  
+      26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30  
+      これより平均は30mmであるといえるか。有意水準を5%として、95%の信頼区間を調べる。  
+      自由度$\phi$はn-1=15  
+
+      $$
+      \overline{X}=\frac{26+33+...+30}{16}=29.5625
+      $$
+  $$
+  u^{2}=\frac{1}{15}((26-29.5625)^{2}+...+(30-29.5625)^{2}) = 9.195833
+  $$
+      $$
+      u=3.032463
+      $$
+      $$
+      t_{15}(0.025) = 2.13
+      $$
+      $$
+      T_{1} = \overline{X}-t_{n-1}(\frac{\alpha}{2})\frac{u}{\sqrt{n}}=29.5625 - 2.13 \times 9.195833/\sqrt{16} = 27.94661
+      $$
+      $$
+      T_{2} = \overline{X}+t_{n-1}(\frac{\alpha}{2})\frac{u}{\sqrt{n}}=29.5625 + 2.13 \times 9.195833/\sqrt{16} = 31.17839
+      $$
+     
+      RINT503.R
+      ```
+      rad=c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+      n=16
+      df=n-1
+      a=0.05
+      Xb=mean(rad)
+      Xb
+      t=qt(1-a/2,df)
+      t
+      u2=(1/(n-1))*sum((rad-Xb)^2)
+      T1=Xb-t*sqrt(u2/n)
+      T1
+      T2=Xb+t*sqrt(u2/n)
+      T2
+      # t分布に基づく区間推定
+      rad=c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+      t.test(rad)
+      ```
+     
+      実行結果  
+      ```
+      > source('chap5/RINT503.R', echo=TRUE)
+
+      > rad=c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+
+      > n=16
+
+      > df=n-1
+
+      > a=0.05
+
+      > Xb=mean(rad)
+
+      > Xb
+      [1] 29.5625
+
+      > t=qt(1-a/2,df)
+
+      > t
+      [1] 2.13145
+
+      > u2=(1/(n-1))*sum((rad-Xb)^2)
+
+      > T1=Xb-t*sqrt(u2/n)
+
+      > T1
+      [1] 27.94661
+
+      > T2=Xb+t*sqrt(u2/n)
+
+      > T2
+      [1] 31.17839
+
+      > # t分布に基づく区間推定
+      > rad=c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+
+      > t.test(rad)
+
+      	One Sample t-test
+
+      data:  rad
+      t = 38.9947, df = 15, p-value < 2.2e-16
+      alternative hypothesis: true mean is not equal to 0
+      95 percent confidence interval:
+       27.94661 31.17839
+      sample estimates:
+      mean of x 
+        29.5625 
+      ```      
    1. 母分散の推定
-   1. 母比率の推定
+      $x^{2}$(カイ二乗)分布(chi-squared distribution)の確率密度関数  
+  $$
+  f_{n}(x) = \frac{x^{\frac{n}{2}-1}e^{-\frac{x}{2}}}{2^{\frac{n}{2}}\Gamma(\frac{n}{2})} (x >0)
+  $$
+      $$
+      = 0 (x \leq 0)
+      $$
+
+      例題5.4 $x^{2}$分布のグラフ
+     
+      RINT504.R
+      ```
+      x = seq(0,30,by=0.1)
+      y = dchisq(x,10)
+      par(family="HiraMaruProN-W4")                  
+      plot(x,y,type='l',xlab='x',ylab='y',main='chi^2 分布')      
+      ```
+     
+      ![504](img/504.png)      
+
+      例題5.5 母平均が未知の場合の母分散の推定  
+      母平均が未知の正規母集団から以下のようなデータが得られたとする。  
+      26,33,27,32,33,24,32,29,31,30  
+      このとき、母分散$sigma^{2}$の95%信頼区間を求める。  
+      $$
+      \overline{X} = \frac{26+33+...+30}{10}=29.7
+      $$
+  $$
+  u^{2}=\frac{1}{9}((26-29.7)^{2}+...+(30-29.7)^{2}) = 9.789
+  $$
+      $$
+      x_{0.025}^{2}(9) = 19.02
+      $$
+      $$
+      x_{0.975}^{2}(9) = 2.70
+      $$
+      $$
+      T_{1}=\frac{9\times9.789}{19.02}=4.63
+      $$
+      $$
+      T_{2}=\frac{9\times9.789}{2.70}=32.63
+      $$
+     
+      RINT505.R
+      ```
+      x=c(26,33,27,32,33,24,32,29,31,30)
+      mean(x)
+      var(x)
+      q1=qchisq(0.025,9,lower.tail=FALSE)
+      q1
+      q2=qchisq(0.975,9,lower.tail=FALSE)
+      q2
+      T1=9*var(x)/q1
+      T1
+      T2=9*var(x)/q2
+      T2      
+      ```
+     
+      実行結果  
+      ```
+      > source('chap5/RINT505.R', echo=TRUE)
+
+      > x=c(26,33,27,32,33,24,32,29,31,30)
+
+      > mean(x)
+      [1] 29.7
+
+      > var(x)
+      [1] 9.788889
+
+      > q1=qchisq(0.025,9,lower.tail=FALSE)
+
+      > q1
+      [1] 19.02277
+
+      > q2=qchisq(0.975,9,lower.tail=FALSE)
+
+      > q2
+      [1] 2.700389
+
+      > T1=9*var(x)/q1
+
+      > T1
+      [1] 4.631292
+
+      > T2=9*var(x)/q2
+
+      > T2
+      [1] 32.62492
+      ```      
+   1. 母比率の推定  
+
+      例題5.6 母比率の推定  
+      東京のある区に住む人に対して、ある調査を1000人に行った。ある項目に対して「賛成」と答えた人は250人いた。よって、25%が賛成といえそうである。  
+      別の地区で同様の調査を行うと、賛成は20%になるかもしれない。しかし、40%とか10%になることはないであろう。  
+      すなわち、「25」という数字そのものではなく、ある幅を持たせて、「この位の幅(例：22-28%)ならば、この程度(例：90%)の信頼がある」と理解した方がよいであろう。  
+      ここで、95%信頼区間で母比率の推定を行うと以下のようになる。  
+      $$
+      z(0.025)=1.96
+      $$
+  $$
+  T_{1}=0.25-1.96\times\sqrt{0.25\times0.75/1000}=0.2231616
+  $$
+      $$
+      T_{2}=0.25+1.96\times\sqrt{0.25\times0.75/1000}=0.2768384
+      $$
+
+      RINT506.R
+      ```
+      r = 0.25
+      n = 1000
+      a = 0.05
+      u = qnorm(1-a/2)
+      u
+      T1 = r - u*sqrt(r*(1-r)/n)
+      T1
+      T2 = r + u*sqrt(r*(1-r)/n)
+      T2
+      # 母比率の推定
+      prop.test(250,1000,0.95)
+      # 10000人に対して2500人が「賛成」と答えた場合
+      prop.test(2500,10000,0.95)
+      ```
+     
+      実行結果  
+      ```
+      > source('chap5/RINT506.R', echo=TRUE)
+
+      > r = 0.25
+
+      > n = 1000
+
+      > a = 0.05
+
+      > u = qnorm(1-a/2)
+
+      > u
+      [1] 1.959964
+
+      > T1 = r - u*sqrt(r*(1-r)/n)
+
+      > T1
+      [1] 0.2231621
+
+      > T2 = r + u*sqrt(r*(1-r)/n)
+
+      > T2
+      [1] 0.2768379
+
+      > # 母比率の推定
+      > prop.test(250,1000,0.95)
+
+      	1-sample proportions test with continuity correction
+      
+      data:  250 out of 1000, null probability 0.95
+      X-squared = 10301.06, df = 1, p-value < 2.2e-16
+      alternative hypothesis: true p is not equal to 0.95
+      95 percent confidence interval:
+       0.2236728 0.2782761
+      sample estimates:
+         p 
+      0.25 
+
+
+      > # 10000人に対して2500人が「賛成」と答えた場合
+      > prop.test(2500,10000,0.95)
+
+      	1-sample proportions test with continuity correction
+
+      data:  2500 out of 10000, null probability 0.95
+      X-squared = 103143.2, df = 1, p-value < 2.2e-16
+      alternative hypothesis: true p is not equal to 0.95
+      95 percent confidence interval:
+       0.2415608 0.2586324
+      sample estimates:
+         p 
+      0.25 
+      ```            
+
 1. 検定
    1. 仮説
    1. 母平均の検定
