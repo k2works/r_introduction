@@ -2769,12 +2769,496 @@ $$
       0.25 
       ```            
 
-1. 検定
-   1. 仮説
-   1. 母平均の検定
-   1. 平均値の差の検定
-   1. 母分散の検定
+1. 検定  
+   検定(test)・・・標本の値から母数に違いがあるかどうかを確かめること。
+   
+   1. 仮説  
+      帰無仮説(null hypothesis)・・・対象となる仮説。  
+      対立仮説(alternative hypothesis)・・・帰無仮説を棄てる場合に取る仮説。  
+      第一種の誤り(error of the first kind)・・・帰無仮説が正しいのに、これを棄てるというもの。  
+      第二種の誤り(level of significance)・・・帰無仮説が誤りであるのに、これを採択する誤りである。        
+   1. 母平均の検定  
+
+      例題5.7 母分散が既知である場合の母平均の検定
+
+      1.89,2.43,2.37,2.30,1.74  
+      母平均を「2.0」と結論してよいかを5%の危険率で検定        
+      $$
+      Z = \frac{\overline{X} - m}{\sigma/\sqrt{n}}
+      $$
+      $$
+      H_{0}:m=m_{0}
+      $$
+      $$
+      H_{1}:m\neq m_{0}
+      $$
+      $$
+      |\overline{X}-m_{0}|>z(\frac{\alpha}{2})\frac{\sigma}{\sqrt{n}}
+      $$
+      $$
+      H_{0}:m = m_{0} 
+      $$
+      $$
+      H_{1}:m < m_{0}
+      $$
+      $$
+      \overline{X}-m_{0} < -z(\alpha)\frac{\sigma}{\sqrt{n}}
+      $$
+      $$
+      H_{0}:m = 2.0
+      $$
+      $$
+      H_{1}:m \neq 2.0      
+      $$
+      $$
+      \overline{X} = \frac{1.89+2.43+2.37+2.30+1.74}{5} = 2.146
+      $$
+      $$
+      z(\frac{\alpha}{2})\frac{\sigma}{\sqrt{n}} = 1.96\frac{0.2}{\sqrt{5}} = 0.1753
+      $$
+      $$
+      \overline{X} - m = 2.146 - 2.0 = 0.146
+      $$
+      よって、危険率「0.05」で帰無仮説は棄てられないので、「危険率0.05で母平均を2.0とみなしてもよい」  
+
+      RINT507.R
+      ```
+      x = c(1.89,2.43,2.37,2.30,1.74)
+      n = 5
+      sigma = 0.2
+      a = 0.05
+      m0 = 2.0
+      xbar = mean(x)
+      xbar
+      left = abs(xbar-m0)
+      left
+      right = qnorm(1-a/2)*sigma/sqrt(n)
+      right
+      if(left > right) print("m != 2.0") else print("m = 2.0")
+      # 両側検定
+      x = c(1.89,2.43,2.37,2.30,1.74)
+      n = 5
+      a = 0.05
+      m0 = 2.0
+      xbar = mean(x)
+      xbar
+      sigma = 0.2
+      z = abs(xbar-m0)/(0.2/sqrt(n))
+      z
+      p = pnorm(z,lower.tail=FALSE)*2
+      p
+      if(p > a) print("m = 2.0") else print("m != 2.0")
+      ```
+     
+      実行結果  
+      ```
+      > source('chap5/RINT507.R', echo=TRUE)
+
+      > x = c(1.89,2.43,2.37,2.30,1.74)
+
+      > n = 5
+
+      > sigma = 0.2
+
+      > a = 0.05
+
+      > m0 = 2.0
+
+      > xbar = mean(x)
+
+      > xbar
+      [1] 2.146
+
+      > left = abs(xbar-m0)
+
+      > left
+      [1] 0.146
+
+      > right = qnorm(1-a/2)*sigma/sqrt(n)
+
+      > right
+      [1] 0.1753045
+
+      > if(left > right) print("m != 2.0") else print("m = 2.0")
+      [1] "m = 2.0"
+
+      > # 両側検定
+      > x = c(1.89,2.43,2.37,2.30,1.74)
+      
+      > n = 5
+
+      > a = 0.05
+
+      > m0 = 2.0
+
+      > xbar = mean(x)
+
+      > xbar
+      [1] 2.146
+
+      > sigma = 0.2
+
+      > z = abs(xbar-m0)/(0.2/sqrt(n))
+
+      > z
+      [1] 1.63233
+
+      > p = pnorm(z,lower.tail=FALSE)*2
+
+      > p
+      [1] 0.1026101
+
+      > if(p > a) print("m = 2.0") else print("m != 2.0")
+      [1] "m = 2.0"
+      ```
+
+      例題5.8 母分散が未知である場合の母平均の検定  
+      26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30  
+      母平均が「33」かどうかを5%の危険率で検定  
+      $$
+      t = \frac{\overline{X} - m}{u/\sqrt{n}}
+      $$
+  $$
+  \overline{X}=29.5625,u^{2} = 9.195833
+  $$
+      $$
+      H_{0}:m - m_{0}
+      $$
+      $$
+      H_{1}:m \neq m_{0}
+      $$
+      $$
+      |\overline{X} - m_{0}|>t_{\frac{\alpha}{2}}(n - 1)\frac{u}{\sqrt{n}}
+      $$
+      $$
+      H_{0}:m = m_{0}
+      $$
+      $$
+      H_{1}:m < m_{0}
+      $$
+      $$
+      \overline{X} - m_{0} < -t_{\alpha}(n - 1)\frac{u}{\sqrt{n}}
+      $$
+      $$
+      H_{0}:m = m_{0}
+      $$
+      $$
+      H_{1}:m > m_{0}
+      $$
+      $$
+      \overline{X} - m_{0} > t_{\alpha}(n - 1)\frac{u}{\sart{n}}
+      $$
+      $$
+      \overline{X} - m_{0} > t_{\alpha}(n - 1)\frac{u}{\sqrt{n}}
+      $$
+      $$
+      |\overline{X} - m_{0}| = 3.4375
+      $$
+      $$
+      t_{0.025}(15)\frac{u}{\sqrt{16}} = 1.615886      
+      $$
+      になるので、$H_{1}: m \neq 33$という結論になる。
+      
+      RINT508.R
+      ```
+      x = c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+      xbar = mean(x)
+      xbar
+      a = 0.05
+      n = 16
+      df = n-1
+      t = qt(1-a/2,df)
+      t
+      m0 = 33
+      left = abs(xbar-m0)
+      u = var(x)
+      u
+      right = t*sqrt(u/n)
+      if(left > right) print("m != 33") else print ("m = 33")
+
+      x = c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+      xbar = mean(x)
+      xbar
+      a = 0.05
+      n = 16
+      df = n-1
+      m0 = 33
+      t = abs(xbar-m0)/sqrt(var(x)/16)
+      t
+      p = pt(t,15,lower.tail = FALSE)*2
+      p
+      if(p > a) print("m=33") else print("m!=33")
+
+      x = c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+      t.test(x,mu=33,alt="two.sided")
+      ```
+     
+      実行結果  
+      ```
+      > source('chap5/RINT508.R', echo=TRUE)
+
+      > x = c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+
+      > xbar = mean(x)
+
+      > xbar
+      [1] 29.5625
+
+      > a = 0.05
+
+      > n = 16
+
+      > df = n-1
+
+      > t = qt(1-a/2,df)
+
+      > t
+      [1] 2.13145
+
+      > m0 = 33
+
+      > left = abs(xbar-m0)
+
+      > u = var(x)
+
+      > u
+      [1] 9.195833
+
+      > right = t*sqrt(u/n)
+
+      > if(left > right) print("m != 33") else print ("m = 33")
+      [1] "m != 33"
+
+      > x = c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+
+      > xbar = mean(x)
+
+      > xbar
+      [1] 29.5625
+      
+      > a = 0.05
+
+      > n = 16
+
+      > df = n-1
+
+      > m0 = 33
+
+      > t = abs(xbar-m0)/sqrt(var(x)/16)
+
+      > t
+      [1] 4.534268
+
+      > p = pt(t,15,lower.tail = FALSE)*2
+
+      > p
+      [1] 0.0003953759
+
+      > if(p > a) print("m=33") else print("m!=33")
+      [1] "m!=33"
+
+      > x = c(26,33,27,32,33,24,32,29,31,30,27,31,25,34,29,30)
+
+      > t.test(x,mu=33,alt="two.sided")
+
+      	One Sample t-test
+
+      data:  x
+      t = -4.5343, df = 15, p-value = 0.0003954
+      alternative hypothesis: true mean is not equal to 33
+      95 percent confidence interval:
+       27.94661 31.17839
+      sample estimates:
+      mean of x 
+        29.5625 
+
+      ```                  
+   1. 平均値の差の検定  
+      例題5.9 対応のある平均値の差の検定  
+
+      番号 | 1   | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10  | 11 | 12 |
+      ---- | ----|----|----|----|----|----|----|----|--- |---- |----|----|
+      4月  | 76  | 57 | 72 | 47 | 52 | 76 | 64 | 64 | 66 | 57  | 38 | 58 |
+      7月  | 89  | 60 | 71 | 65 | 60 | 70 | 71 | 69 | 68 | 66  | 50 | 62 |
+
+   $$
+   H_{0} : A = B
+   $$
+      $$
+      H_{1} : A < B
+      $$
+      $$
+      t_{0} = \frac{\overline{d}}{\sqrt{u^{2}/n}}
+      $$
+      $$
+      \overline{d} = \frac{-13-3+...-4}{12} = -6.166667
+      $$
+      $$
+      u^{2} = \frac{1}{11}((-13-(-6.166667))^{2} + ... + (-9-(-6.166667))^{2}) = 42.33333
+      $$
+      $$
+      \overline{d} - d_{0} < -t_{0.05}(11)\frac{u}{\sqrt{12}}
+      $$
+      $$
+      -6.166667 - 0 < -1.795885 \times \sqrt{42.33333/12} = -3.373099
+      $$
+      
+      ならば、帰無仮説$H_{0}$は棄却される。よって、H1:A<Bが採択される。  
+      また、信頼区間は$-\infty < d_{0} < -2.793568$になる。  
+      RINT509.R
+
+      ```
+      x = c(76,57,72,47,52,76,64,64,66,57,38,58)
+      y = c(89,60,71,65,60,70,71,69,68,66,50,62)
+      n = 12
+      df = n-1
+      m = x-y
+      me = mean(m)
+      me
+      tt = qt(1-0.05,df)
+      tt
+      left = me-0
+      left
+      right = -tt*sqrt(var(m)/n)
+      right
+      if(left<right) print("x < y") else print("x = y")
+      print(unlist(list("largest value: ",left-right)))
+      # p値による検定
+      x = c(76,57,72,47,52,76,64,64,66,57,38,58)
+      y = c(89,60,71,65,60,70,71,69,68,66,50,62)
+      m = x-y
+      me = mean(m)
+      me
+      t = me/sqrt(var(m)/12)
+      t
+      p = pt(t,11)
+      p
+      if(p < 0.05) print("mean(x) < mean(y)") else print("mean(y) = mean(y)")
+      # 対応のある平均値の差の検定
+      x = c(76,57,72,47,52,76,64,64,66,57,38,58)
+      y = c(89,60,71,65,60,70,71,69,68,66,50,62)
+      t.test(x,y,alternative="less",paired=T)
+      ```
+     
+      実行結果  
+      ```
+      > source('chap5/RINT509.R', echo=TRUE)
+
+      > x = c(76,57,72,47,52,76,64,64,66,57,38,58)
+
+      > y = c(89,60,71,65,60,70,71,69,68,66,50,62)
+
+      > n = 12
+
+      > df = n-1
+
+      > m = x-y
+
+      > me = mean(m)
+
+      > me
+      [1] -6.166667
+
+      > tt = qt(1-0.05,df)
+
+      > tt
+      [1] 1.795885
+
+      > left = me-0
+
+      > left
+      [1] -6.166667
+
+      > right = -tt*sqrt(var(m)/n)
+
+      > right
+      [1] -3.373099
+
+      > if(left<right) print("x < y") else print("x = y")
+      [1] "x < y"
+
+      > print(unlist(list("largest value: ",left-right)))
+      [1] "largest value: "   "-2.79356765545161"
+
+      > # p値による検定
+      > x = c(76,57,72,47,52,76,64,64,66,57,38,58)
+
+      > y = c(89,60,71,65,60,70,71,69,68,66,50,62)
+
+      > m = x-y
+
+      > me = mean(m)
+
+      > me
+      [1] -6.166667
+
+      > t = me/sqrt(var(m)/12)
+
+      > t
+      [1] -3.283219
+
+      > p = pt(t,11)
+
+      > p
+      [1] 0.003645989
+
+      > if(p < 0.05) print("mean(x) < mean(y)") else print("mean(y) = mean(y)")
+      [1] "mean(x) < mean(y)"
+
+      > # 対応のある平均値の差の検定
+      > x = c(76,57,72,47,52,76,64,64,66,57,38,58)
+      
+      > y = c(89,60,71,65,60,70,71,69,68,66,50,62)
+
+      > t.test(x,y,alternative="less",paired=T)
+
+      	Paired t-test
+
+      data:  x and y
+      t = -3.2832, df = 11, p-value = 0.003646
+      alternative hypothesis: true difference in means is less than 0
+      95 percent confidence interval:
+            -Inf -2.793568
+      sample estimates:
+      mean of the differences 
+                    -6.166667 
+      ```                  
+   1. 母分散の検定  
+      例題5.10 母平均が未知であるときの母分散の検定
+
+      RINT50.R
+      ```
+
+      ```
+     
+      実行結果  
+      ```
+
+      ```                  
    1. 分散の差の検定
+      例題5.11 F分布のグラフ
+
+      RINT50.R
+      ```
+
+      ```
+     
+      実行結果  
+      ```
+
+      ```
+
+      例題5.12 分散の差の検定
+
+      RINT50.R
+      ```
+
+      ```
+     
+      実行結果  
+      ```
+
+      ```                  
 
 ## <a name="chapter6">単回帰分析 ##
 1. 線回帰モデル
