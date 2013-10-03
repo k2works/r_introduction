@@ -3224,40 +3224,198 @@ $$
                     -6.166667 
       ```                  
    1. 母分散の検定  
-      例題5.10 母平均が未知であるときの母分散の検定
+      例題5.10 母平均が未知であるときの母分散の検定  
+      $N(m,\sigma^{2})$の正規母集団から、大きさ「15」の標本を抽出したとき、不偏分散が「1.9」であったとする。ここで、母分散$\sigma^{2}$が「1.0」かどうかを5%の危険率で検定。  
+      帰無仮説$H_{0}$と対立仮説$H_{1}$は$\sigma_{0}^{2}=1.0$とする。  
+      $$
+      H_{0}:\sigma^{2} = \sigma_{0}^{2}
+      $$
+      $$
+      H_{1}:\sigma^{2} \neq \sigma_{0}^{2}
+      $$
+      $$
+      x^{2} = \sigma_{i=1}^{n}(\frac{X_{i}-\overline{X}}{\sigma})^{2} = \frac{(n-1)u^{2}}{\sigma^{2}}
+      $$
+      $$
+      x^{2} \leq x_{1-\frac{\alpha}{2}}^{2}(n - 1)またはx^{2} \geq x_{\frac{\alpha}{2}}^{2}(n - 1)
+      $$
+      $$
+      (\frac{(n-1)u^{2}}{x_{\frac{\alpha}{2}}^{2}(n-1)},\frac{(n-1)u^{2}}{x_{1-\frac{\alpha}{2}}^{2}(n-1)})
+      $$
+      $$
+      x^{2}=\frac{(n-1)u^{2}}{\sigma^{2}}=(15-1)\times\frac{1.9}{1} = 26.6
+      $$
+      $$
+      x_{0.025}^{2}(14) = 26.1189
+      $$
+      $$
+      x_{0.975}^{2}(14) = 5.6287
+      $$
+      棄却域は「26.1189」以上または「5.6287」以下になる。  
+      したがって、$H_{0}は棄却されるので、  
+      「危険率0.05で母分散を1.0と見なすことはできない」
 
-      RINT50.R
+      RINT510.R
       ```
-
+      n = 15
+      a = 0.05
+      u2 = 1.9
+      q1 = qchisq(0.025,14,lower.tail=FALSE)
+      q1
+      q2 = qchisq(0.975,14,lower.tail=FALSE)
+      q2
+      q = (n-1)*u2/1.0
+      q
+      if(q <= q1 | q2 <= q) print("sigma^2 != 1") else print("sigma^2 = 1")      
       ```
      
       実行結果  
       ```
+      > source('chap5/RINT510.R', echo=TRUE)
 
-      ```                  
+      > n = 15
+
+      > a = 0.05
+
+      > u2 = 1.9
+
+      > q1 = qchisq(0.025,14,lower.tail=FALSE)
+
+      > q1
+      [1] 26.11895
+
+      > q2 = qchisq(0.975,14,lower.tail=FALSE)
+
+      > q2
+      [1] 5.628726
+
+      > q = (n-1)*u2/1.0
+
+      > q
+      [1] 26.6
+
+      > if(q <= q1 | q2 <= q) print("sigma^2 != 1") else print("sigma^2 = 1")
+      [1] "sigma^2 != 1"
+      ```
+      
    1. 分散の差の検定
+      分散の差の検定は、２つの母集団の分散が等しいかを決めるもので、等分散の検定ともいう。
+
       例題5.11 F分布のグラフ
 
-      RINT50.R
+      RINT511.R
       ```
+      x = seq(0,6,by=0.1)
+      y = df(x,10,20)
+      par(family="HiraMaruProN-W4")                  
+      plot(x,y,type='l',xlab='x',ylab='y',main='F 分布')
+      ```
+     
+      ![511](img/511.png)      
 
+      例題5.12 分散の差の検定  
+      ある工場の２つの製品A,Bの長さのばらつきが等しいかどうかを、それぞれ大きさ「10」の標本データから危険率10%で検定。  
+      A:7.0,6.1,5.8,6.1,6.0,5.8,6.4,6.1,5.9,5.8  
+      B:6.1,5.9,5.7,5.8,5.9,5.6,5.6,5.9,5.6,5.7  
+  $$
+  \overline{A} = \frac{7.0+6.1+...+5.8}{10} = 6.1
+  $$
+      $$
+      \overline{B} = \frac{6.1+5.9+...+5.7}{10} = 5.78
+      $$
+      $$
+      u_{A}^{2} = \frac{(7.0-6.1)^{2}+...+(5.8-6.1)^{2}}{9} = 0.1355556
+      $$
+      $$
+      u_{B}^{2} = \frac{(6.1-5.78)^{2}+...+(5.8-6.1)^{2}}{9}=0.1355556
+      $$
+      $$
+      \frac{u_{A}^{2}}{u_{B}^{2}} = 4.765625
+      $$
+      になるので、危険率10%で$H_{0}$を棄却する。  
+      「Aの分散$\sigma_{A}^{2}$とBの分散$\sigma_{B}^{2}は等しくない」  
+      信頼区間は
+      $$
+      T_{1} = \frac{1}{F_{9}^{9}(0.95)} \times \frac{\sigma_{A}^{2}}{\sigma_{B}^{2}} = 0.3145749 \times 4.765625 = 1.499146
+      $$
+      $$
+      T_{2} = \frac{1}{F_{9}^{9}(0.95)} \times \frac{\sigma_{A}^{2}}{\sigma_{B}^{2}} = 3.178893 \times 4.765625 = 15.14941
+      $$        
+
+      RINT512.R
+      ```
+      x = c(7.0,6.1,5.8,6.1,6.0,5.8,6.4,6.1,5.9,5.8)
+      y = c(6.1,5.9,5.7,5.8,5.9,5.6,5.6,5.9,5.6,5.7)
+      var(x)
+      var(y)
+      v = var(x)/var(y)
+      v
+      F1 = qf(0.95,9,9,lower.tail=FALSE)
+      F2 = qf(0.05,9,9,lower.tail=FALSE)
+      if(v > F2) print("sigma_x^2!=sigma_y^2") else print("sigma_x^2!=sigma_y^2")
+      T1 = v/F2
+      T2 = v/F1
+      T1
+      T2
+      # var.testの場合
+      x = c(7.0,6.1,5.8,6.1,6.0,5.8,6.4,6.1,5.9,5.8)
+      y = c(6.1,5.9,5.7,5.8,5.9,5.6,5.6,5.9,5.6,5.7)
+      var.test(x,y,alternative="two.sided",conf.level=0.9)      
       ```
      
       実行結果  
       ```
+      > source('chap5/RINT512.R', echo=TRUE)
 
-      ```
+      > x = c(7.0,6.1,5.8,6.1,6.0,5.8,6.4,6.1,5.9,5.8)
 
-      例題5.12 分散の差の検定
+      > y = c(6.1,5.9,5.7,5.8,5.9,5.6,5.6,5.9,5.6,5.7)
 
-      RINT50.R
-      ```
+      > var(x)
+      [1] 0.1355556
 
-      ```
-     
-      実行結果  
-      ```
+      > var(y)
+      [1] 0.02844444
 
+      > v = var(x)/var(y)
+
+      > v
+      [1] 4.765625
+
+      > F1 = qf(0.95,9,9,lower.tail=FALSE)
+
+      > F2 = qf(0.05,9,9,lower.tail=FALSE)
+
+      > if(v > F2) print("sigma_x^2!=sigma_y^2") else print("sigma_x^2!=sigma_y^2")
+      [1] "sigma_x^2!=sigma_y^2"
+
+      > T1 = v/F2
+
+      > T2 = v/F1
+
+      > T1
+      [1] 1.499146
+
+      > T2
+      [1] 15.14941
+
+      > # var.testの場合
+      > x = c(7.0,6.1,5.8,6.1,6.0,5.8,6.4,6.1,5.9,5.8)
+
+      > y = c(6.1,5.9,5.7,5.8,5.9,5.6,5.6,5.9,5.6,5.7)
+
+      > var.test(x,y,alternative="two.sided",conf.level=0.9)
+
+      	F test to compare two variances
+
+      data:  x and y
+      F = 4.7656, num df = 9, denom df = 9, p-value = 0.02934
+      alternative hypothesis: true ratio of variances is not equal to 1
+      90 percent confidence interval:
+        1.499146 15.149412
+      sample estimates:
+      ratio of variances 
+                4.765625       
       ```                  
 
 ## <a name="chapter6">単回帰分析 ##
